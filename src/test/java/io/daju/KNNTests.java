@@ -1,4 +1,4 @@
-package io.suttonese;
+package io.daju;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package io.suttonese;
+package io.daju;
 
 public class Distance {
     public static double getDistance(Price a, Price b){

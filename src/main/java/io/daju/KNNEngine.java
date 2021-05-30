@@ -1,4 +1,4 @@
-package io.suttonese;
+package io.daju;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,8 +20,7 @@ public class KNNEngine {
         for (int i = 0; i < K; i++) {
             sumOfNeighbours += neighbours[i].getPrice();
         }
-        test.setNextDayClosePrice(sumOfNeighbours / K);
-        return test;
+        return new Price(test.getClosePrice(), sumOfNeighbours / K);
     }
 
     public double leastSquare(ArrayList<Price> test, ArrayList<Price> train) throws KNNException{
