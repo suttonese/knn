@@ -1,4 +1,4 @@
-package io.daju;
+package io.daju.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

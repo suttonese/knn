@@ -1,4 +1,6 @@
 package io.daju;
+import io.daju.model.Distance;
+import io.daju.model.Price;
 import org.junit.Before;
 import org.junit.Test;
 

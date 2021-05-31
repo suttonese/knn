@@ -1,4 +1,4 @@
-package io.daju;
+package io.daju.model;
 
 public class Distance {
     public static double getDistance(Price a, Price b){

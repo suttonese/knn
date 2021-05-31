@@ -1,5 +1,6 @@
 package io.daju;
 
+import io.daju.model.Neighbour;
 import junit.framework.TestCase;
 
 public class NeighbourTest extends TestCase {

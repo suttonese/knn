@@ -1,5 +1,6 @@
 package io.daju;
 
+import io.daju.model.Price;
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.HistoricalQuote;
@@ -7,12 +8,9 @@ import yahoofinance.histquotes.Interval;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class Prediction {
+public class PredictMachine {
     List<BigDecimal> historicalQuotes = new ArrayList<>();
     ArrayList<Price> prices = new ArrayList<>();
     ArrayList<Price> predictions = new ArrayList<>();
@@ -21,6 +19,10 @@ public class Prediction {
     public void downLoadData(String symbol) throws IOException {
 
         Stock stock = YahooFinance.get(symbol, true);
+        if (Objects.isNull(stock)) {
+            System.out.println("No data available for symbol " + symbol);
+            return;
+        }
         List<HistoricalQuote> historicalQuotes = stock.getHistory(Interval.DAILY);
 
         for (HistoricalQuote quote : historicalQuotes) {
@@ -33,6 +35,10 @@ public class Prediction {
             prepareData(symbol);
         } catch (IOException e) {
             System.out.println(e.getMessage());
+        }
+
+        if (prices.isEmpty()) {
+            return;
         }
 
         Map<Integer, Double> kAndLeastSquare = new HashMap<>();
@@ -50,9 +56,11 @@ public class Prediction {
             kAndLeastSquare.put(k, knnEngine.leastSquare(prices, predictions));
         }
 
+
         for (int k = 1; k <= 10; k++) {
             System.out.println(k + " : " + kAndLeastSquare.get(k));
         }
+
 
         double smallest = kAndLeastSquare.get(1);
         int kToUse = 1;
@@ -66,7 +74,10 @@ public class Prediction {
         Price lastPrice = new Price();
         lastPrice.setClosePrice(historicalQuotes.get(historicalQuotes.size() - 1).doubleValue());
         Price predictedPrice = knnEngine.classify(lastPrice, prices, kToUse);
-        System.out.println(predictedPrice);
+        System.out.println("Based on " + symbol + "'s close price: " + predictedPrice.getClosePrice()
+                + ", the predicted price is " + predictedPrice.getNextDayClosePrice());
+        prices.clear();
+        historicalQuotes.clear();
     }
 
     public void prepareData(String symbol) throws IOException {

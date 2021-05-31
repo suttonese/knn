@@ -1,5 +1,9 @@
 package io.daju;
 
+import io.daju.model.Distance;
+import io.daju.model.Neighbour;
+import io.daju.model.Price;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
